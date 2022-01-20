@@ -1,0 +1,18 @@
+.about {
+    display: flex;
+    justify-content: center;
+    background-color: #ffffff13; 
+    border-radius: 0.5rem;
+    text-align: center;
+    color: rgb(206, 206, 206);
+    backdrop-filter: blur(.5rem);
+    transition: color 0.2s linear 0.2s;
+    font-size: 2rem;
+    margin-left: 25rem;
+    margin-right: 25rem;
+    padding: 4rem;
+}
+.about:hover{
+    background-color: rgba(93, 244, 255, 0.226);
+    color: black;
+  }

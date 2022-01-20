@@ -1,7 +1,7 @@
 import React from 'react';
 import Logo from '../img/logoHenry.png'
 import SearchBar from './SearchBar.jsx';
-import './Nav.css';
+import styles from './Nav.module.css';
 
 
 function Nav({onSearch}) {

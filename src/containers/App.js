@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import Cards from './components/Cards.jsx';
+import styles from './App.module.css'; 
+import Nav from './components/Nav.jsx'; 
+import { Route } from 'react-router';
+import About from './components/About.jsx'
+import Details from "./components/Details.jsx"
 
-import './App.css';
-import Nav from '../components/Nav.jsx';
-import Cards from '../components/Cards.jsx';
-
-const apiKey = '4ae2636d8dfbdc3044bede63951a019b';
+const apiKey = 'fecb4768ab7de692bbbe291b87984348';
 
 function App() {
   const [cities, setCities] = useState([]);
@@ -13,7 +15,7 @@ function App() {
   }
   function onSearch(ciudad) {
     //Llamado a la API del clima
-    fetch(`http://api.openweathermap.org/data/2.5/weather?q=${ciudad}&appid=${apiKey}`)
+    fetch(`http://api.openweathermap.org/data/2.5/weather?q=${ciudad}&units=metric&appid=${apiKey}`)
       .then(r => r.json())
       .then((recurso) => {
         if(recurso.main !== undefined){
@@ -32,7 +34,7 @@ function App() {
           };
           setCities(oldCities => [...oldCities, ciudad]);
         } else {
-          alert("Ciudad no encontrada");
+          alert("City not found, sorry");
         }
       });
   }
@@ -45,17 +47,30 @@ function App() {
     }
   }
   return (
-    <div className="App">
-      <Nav onSearch={onSearch}/>
-      <div>
-        <Cards
-          cities={cities}
-          onClose={onClose}
-        />
-      </div>
-      <hr />
-    </div>
-  );
+    <div className= {styles.app}>
+    <Route
+        path='/'
+        render={() => <Nav onSearch={onSearch} />}
+      />
+    <Route
+        path='/about'
+        component={About}
+    />
+  <div className={styles.city}>
+    <Route
+        exact path='/'
+        render={() => 
+        <Cards onClose={onClose} cities={cities} />}
+    />     
+  </div>
+   <Route
+        exact
+        path='/ciudad/:ciudadId'
+        render={({match}) => 
+        <Details city={onFilter(match.params.ciudadId)}/>}
+     />
+</div>
+);
 }
 
 export default App;
