@@ -1,5 +1,5 @@
 import React from "react";
-import styles from './Details.module.css'
+import styles from './City.css'
 
 export default function Details({city}) {
     if (city) {
