@@ -4,18 +4,20 @@ import "./App.css";
 import Nav from "./components/Nav.jsx";
 import Cards from "./components/Cards.jsx";
 import About from "./components/About.jsx";
-import City from "./components/City.jsx";
+import City from "./components/City";
+// import City from "./components/City.jsx";
 const apiKey = "fecb4768ab7de692bbbe291b87984348";
 
-function App() {
+export default function App() {
   const [cities, setCities] = useState([]);
   function onClose(id) {
-    setCities((oldCities) => oldCities.filter((c) => c.id !== id));
+    setCities((cities) => cities.filter((c) => c.id !== id));
   }
   function onSearch(city) {
     //Llamado a la API del clima
+    const cityF = city.toLowerCase();
     fetch(
-      `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`
+      `http://api.openweathermap.org/data/2.5/weather?q=${cityF}&units=metric&appid=${apiKey}`
     )
       .then((r) => r.json())
       .then((recurso) => {
@@ -30,36 +32,31 @@ function App() {
             name: recurso.name,
             weather: recurso.weather[0].main,
             clouds: recurso.clouds.all,
-            latitud: recurso.coord.lat,
-            longitud: recurso.coord.lon,
+            latitude: recurso.coord.lat,
+            longitude: recurso.coord.lon,
           };
-          setCities((oldCities) => [...oldCities, ciudad]);
+          setCities((cities) => [...cities, ciudad]);
         } else {
-          alert("Ciudad no encontrada");
+          alert("City not found");
         }
       });
-  }
-  function onFilter(ciudadId) {
-    let ciudad = cities.filter((c) => c.id === parseInt(ciudadId));
-    if (ciudad.length > 0) {
-      return ciudad[0];
-    } else {
-      return null;
-    }
   }
   return (
     <div className="App">
       <BrowserRouter>
-        <Nav onSearch={onSearch} />
-        <Route path="/" element={<Cards cities={cities} onClose={onClose} />} />
-        <Route path="/about" element={About} />
+        <Route path="/" render={() => <Nav onSearch={onSearch} />} />
         <Route
-          path="/ciudad/:ciudadId"
-          element={<City onFilter={onFilter} />}
+          exact
+          path="/"
+          render={() => <Cards cities={cities} onClose={onClose} />}
         />
+        <Route
+          exact
+          path="/city/:cityId"
+          render={() => <City cities={cities} />}
+        />
+        <Route path="/about" component={About} />
       </BrowserRouter>
     </div>
   );
 }
-
-export default App;
