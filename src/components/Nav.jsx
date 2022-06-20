@@ -1,24 +1,21 @@
 import React from "react";
 import Logo from "../img/logoHenry.png";
 import SearchBar from "./SearchBar.jsx";
-import "./Nav.css";
-import { Link } from "react-router-dom";
+import "./styles/Nav.css";
 
-function Nav({ onSearch }) {
+export default function Nav({ onSearch }) {
   return (
     <nav className="navbar navbar-dark bg-dark">
       <span className="navbar-brand">
-        <Link to="/">
+        <a href="/">
           <img id="logoHenry" src={Logo} alt="" />
-          WEATHER REPORT
-        </Link>
+        </a>
+        <h3 className="headerTitle">WEATHER REPORT</h3>
       </span>
       <SearchBar onSearch={onSearch} />
-      <Link to="/about">
+      <a href="/about">
         <span>About</span>
-      </Link>
+      </a>
     </nav>
   );
 }
-
-export default Nav;
