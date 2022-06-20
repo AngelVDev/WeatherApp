@@ -1,0 +1,11 @@
+#logoHenry {
+  margin-right: 20px;
+  height: 50px;
+  mix-blend-mode: hard-light;
+}
+.headerTitle{
+  height: 20px;
+}
+.headerTitle:hover{
+  text-shadow: 6px 15px 30px #C8C9CA, -19px -10px 26px #F1F1F1, 0px 1px 20px #FFFFFF;
+}
