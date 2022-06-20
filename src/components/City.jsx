@@ -1,28 +1,31 @@
 import React from "react";
-import styles from './City.css'
+import "./styles/City.css";
+export default function City(props) {
+  const { name, temp, weather, wind, clouds, latitude, longitude } = props;
+  console.log(props);
 
-export default function Details({city}) {
-    if (city) {
-        return (
-            <div className={styles.ciudad}>
-                    <div className="container">
-                        <h2>{city.name}</h2>
-                        <div className="info">
-                            <div>Temperature: {city.temp} ºC</div>
-                            <div>Weather: {city.weather}</div>
-                            <div>Wind: {city.wind} km/h</div>
-                            <div>Clouds: {city.clouds}</div>
-                            <div>Latitude: {city.latitud}º</div>
-                            <div>Longitude: {city.longitud}º</div>
-                        </div>
-                </div>
-            </div>
-       )
-    }else {
-        return (
-            <div className={styles.er}>
-            <h2>Try again</h2>
-            </div>
-        )
-    }
+  if (props !== null) {
+    return (
+      <div className="cityDetails">
+        <div className="container">
+          <h2>{name}</h2>
+          <div className="info">
+            <div>Temperature: {temp} ºC</div>
+            <div>Weather: {weather}</div>
+            <div>Wind: {wind} km/h</div>
+            <div>Clouds: {clouds}</div>
+            <div>Latitude: {latitude}</div>
+            <div>Longitude: {longitude}</div>
+          </div>
+        </div>
+      </div>
+    );
+  } else {
+    return (
+      <div className="er">
+        <h2>Try again</h2>
+        {alert("Click the hat to go back")}
+      </div>
+    );
+  }
 }
