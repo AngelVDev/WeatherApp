@@ -1,11 +1,13 @@
 import React from "react";
 
 export default function Card(props) {
-  const { max, min, name, img, onClose } = props;
+  const { id, max, min, name, img, onClose } = props;
   return (
     <div className="cardCity">
       <button onClick={onClose}>x</button>
-      <h4>{name}</h4>
+      <a href={`/city/${id}`} style={{ textDecoration: "none" }}>
+        <h4>{name}</h4>
+      </a>
       <div>Max. {max}°</div>
       <div>Min. {min}°</div>
       <img

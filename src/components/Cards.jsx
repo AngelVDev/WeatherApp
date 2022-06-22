@@ -1,6 +1,6 @@
 import React from "react";
 import Card from "./Card";
-export default function Cards({ cities }) {
+export default function Cards({ cities, onClose }) {
   // acá va tu código
   // tip, podés usar un map
   console.log(cities);
@@ -8,15 +8,14 @@ export default function Cards({ cities }) {
     <div className="cityContainer">
       {cities.map((city) => {
         return (
-          <a href={`/city/${city.id}`}>
-            <Card
-              max={city.max}
-              min={city.min}
-              name={city.name}
-              img={city.img}
-              onClose={() => city.id}
-            />
-          </a>
+          <Card
+            id={city.id}
+            max={city.max}
+            min={city.min}
+            name={city.name}
+            img={city.img}
+            onClose={() => onClose(city.id)}
+          />
         );
       })}
     </div>
