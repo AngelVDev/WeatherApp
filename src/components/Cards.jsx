@@ -6,6 +6,7 @@ export default function Cards({ cities, onClose }) {
       {cities.map((city) => {
         return (
           <Card
+            key={city.id}
             id={city.id}
             max={city.max}
             min={city.min}

@@ -5,12 +5,12 @@ import Cards from "./components/Cards.jsx";
 import About from "./components/About.jsx";
 import City from "./components/City";
 
-const apiKey = "fecb4768ab7de692bbbe291b87984348";
+const API_KEY = process.env.REACT_APP_APIKEY;
 
 export default function App() {
   const [cities, setCities] = useState([]);
   //Functions
-  console.log(cities);
+
   function onClose(id) {
     setCities((oldCities) => oldCities.filter((c) => c.id !== id));
   }
@@ -18,7 +18,7 @@ export default function App() {
     //CALLING THE POLI--API
     const cityF = ciudad.toLowerCase();
     fetch(
-      `http://api.openweathermap.org/data/2.5/weather?q=${cityF}&units=metric&appid=${apiKey}`
+      `http://api.openweathermap.org/data/2.5/weather?q=${cityF}&units=metric&appid=${API_KEY}`
     )
       .then((res) => res.json())
       .then((data) => {
@@ -42,11 +42,10 @@ export default function App() {
         }
       });
   }
-  console.log(cities);
+
   const onDetail = (cityId) => {
-    console.log(cities);
     const ciudad = cities.filter((c) => c.id === parseInt(cityId));
-    console.log(ciudad);
+
     if (ciudad?.length === 1) {
       return ciudad[0];
     } else {
@@ -64,8 +63,8 @@ export default function App() {
       <Route path="/about" component={About} />
       <Route
         exact
-        path={"/city/:cityId"}
-        render={({ match }) => <City ciudad={onDetail(match.params.cityId)} />}
+        path="/city/:cityId"
+        render={({ match }) => <City city={onDetail(match.params.cityId)} />}
       />
     </div>
   );
