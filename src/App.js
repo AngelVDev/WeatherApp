@@ -1,62 +1,72 @@
 import React, { useState } from "react";
-import { BrowserRouter, Route } from "react-router-dom";
-import "./App.css";
+import { Route } from "react-router-dom";
 import Nav from "./components/Nav.jsx";
 import Cards from "./components/Cards.jsx";
 import About from "./components/About.jsx";
 import City from "./components/City";
-// import City from "./components/City.jsx";
+
 const apiKey = "fecb4768ab7de692bbbe291b87984348";
 
 export default function App() {
   const [cities, setCities] = useState([]);
+  //Functions
+  console.log(cities);
   function onClose(id) {
-    setCities((cities) => cities.filter((c) => c.id !== id));
+    setCities((oldCities) => oldCities.filter((c) => c.id !== id));
   }
-  function onSearch(city) {
-    //Llamado a la API del clima
-    const cityF = city.toLowerCase();
+  function onSearch(ciudad) {
+    //CALLING THE POLI--API
+    const cityF = ciudad.toLowerCase();
     fetch(
       `http://api.openweathermap.org/data/2.5/weather?q=${cityF}&units=metric&appid=${apiKey}`
     )
-      .then((r) => r.json())
-      .then((recurso) => {
-        if (recurso.main !== undefined) {
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.main !== undefined) {
           const ciudad = {
-            min: Math.round(recurso.main.temp_min),
-            max: Math.round(recurso.main.temp_max),
-            img: recurso.weather[0].icon,
-            id: recurso.id,
-            wind: recurso.wind.speed,
-            temp: recurso.main.temp,
-            name: recurso.name,
-            weather: recurso.weather[0].main,
-            clouds: recurso.clouds.all,
-            latitude: recurso.coord.lat,
-            longitude: recurso.coord.lon,
+            min: Math.round(data.main.temp_min),
+            max: Math.round(data.main.temp_max),
+            img: data.weather[0].icon,
+            id: data.id,
+            wind: data.wind.speed,
+            temp: data.main.temp,
+            name: data.name,
+            weather: data.weather[0].main,
+            clouds: data.clouds.all,
+            latitude: data.coord.lat,
+            longitude: data.coord.lon,
           };
-          setCities((cities) => [...cities, ciudad]);
+          setCities((oldCities) => [...oldCities, ciudad]);
         } else {
           alert("City not found");
         }
       });
   }
+  console.log(cities);
+  const onDetail = (cityId) => {
+    console.log(cities);
+    const ciudad = cities.filter((c) => c.id === parseInt(cityId));
+    console.log(ciudad);
+    if (ciudad?.length === 1) {
+      return ciudad[0];
+    } else {
+      return null;
+    }
+  };
   return (
     <div className="App">
-      <BrowserRouter>
-        <Route path="/" render={() => <Nav onSearch={onSearch} />} />
-        <Route
-          exact
-          path="/"
-          render={() => <Cards cities={cities} onClose={onClose} />}
-        />
-        <Route
-          exact
-          path="/city/:cityId"
-          render={() => <City cities={cities} />}
-        />
-        <Route path="/about" component={About} />
-      </BrowserRouter>
+      <Route path="/" render={() => <Nav onSearch={onSearch} />} />
+      <Route
+        exact
+        path="/"
+        render={() => <Cards cities={cities} onClose={onClose} />}
+      />
+      <Route path="/about" component={About} />
+      <Route
+        exact
+        path={"/city/:cityId"}
+        render={({ match }) => <City ciudad={onDetail(match.params.cityId)} />}
+      />
     </div>
   );
 }
