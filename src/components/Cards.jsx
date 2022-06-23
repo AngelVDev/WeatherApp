@@ -1,9 +1,6 @@
 import React from "react";
 import Card from "./Card";
 export default function Cards({ cities, onClose }) {
-  // acá va tu código
-  // tip, podés usar un map
-  console.log(cities);
   return (
     <div className="cityContainer">
       {cities.map((city) => {
