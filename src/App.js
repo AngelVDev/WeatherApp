@@ -18,7 +18,7 @@ export default function App() {
     //CALLING THE POLI--API
     const cityF = ciudad.toLowerCase();
     fetch(
-      `http://api.openweathermap.org/data/2.5/weather?q=${cityF}&units=metric&appid=${API_KEY}`
+      `https://api.openweathermap.org/data/2.5/weather?q=${cityF}&units=metric&appid=${API_KEY}`
     )
       .then((res) => res.json())
       .then((data) => {
